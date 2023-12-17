@@ -1,4 +1,11 @@
-import { PropsWithChildren, createContext, useCallback, useContext, useState } from 'react';
+import {
+  PropsWithChildren,
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from 'react';
 import api from '../services/api';
 
 interface User {
@@ -75,10 +82,18 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
     [data.token],
   );
 
+  const authContextValue = useMemo(
+    () => ({
+      user: data.user,
+      signIn,
+      signOut,
+      updateUser,
+    }),
+    [data.user, signIn, signOut, updateUser],
+  );
+
   return (
-    <AuthContext.Provider
-      value={{ user: data.user, signIn, signOut, updateUser }}
-    >
+    <AuthContext.Provider value={authContextValue}>
       {children}
     </AuthContext.Provider>
   );

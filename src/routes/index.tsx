@@ -30,6 +30,6 @@ const RouteSwitcher = () => {
   const { user } = useAuth();
 
   return user ? <AppRoutes /> : <AuthRoutes />;
-}
+};
 
 export default RouteSwitcher;

@@ -60,23 +60,18 @@ const Profile: React.FC = () => {
           abortEarly: false,
         });
 
-        const {
-          name,
-          email,
-          old_password,
-          password,
-          password_confirmation,
-        } = data;
+        const { name, email, old_password, password, password_confirmation } =
+          data;
 
         const formData = {
           name,
           email,
           ...(old_password
             ? {
-              old_password,
-              password,
-              password_confirmation,
-            }
+                old_password,
+                password,
+                password_confirmation,
+              }
             : {}),
         };
 
@@ -147,7 +142,7 @@ const Profile: React.FC = () => {
             name: user.name,
             email: user.email,
           }}
-          placeholder=''
+          placeholder=""
         >
           <AvatarInput>
             <img src={user.avatar_url} alt={user.name} />
