@@ -2,6 +2,7 @@
   "name": "front-end-gobarber",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "dependencies": {
     "@unform/core": "^2.1.6",
     "@unform/web": "^2.1.6",
