@@ -230,26 +230,12 @@ const Dashboard: React.FC = () => {
         </Schedule>
         <Calendar>
           <DayPicker
-            // weekdaysShort={['D', 'S', 'T', 'Q', 'Q', 'S', 'S']}
             fromMonth={new Date()}
-            // disabledDays={[{ daysOfWeek: [0, 6] }, ...disabledDays]}
+            disabled={{ dayOfWeek: [0, 6], ...disabledDays }}
             onMonthChange={handleMonthChange}
-            // selectedDays={selectedDate}
+            selected={selectedDate}
+            locale={ptBR}
             onDayClick={handleDateChange}
-            // months={[
-            //   'Janeiro',
-            //   'Fevereiro',
-            //   'Março',
-            //   'Abril',
-            //   'Maio',
-            //   'Junho',
-            //   'Julho',
-            //   'Agosto',
-            //   'Setembro',
-            //   'Outubro',
-            //   'Novembro',
-            //   'Dezembro',
-            // ]}
           />
         </Calendar>
       </Content>
