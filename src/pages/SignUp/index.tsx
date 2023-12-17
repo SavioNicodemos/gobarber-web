@@ -1,8 +1,8 @@
-import React, { useCallback, useRef } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import { FiArrowLeft, FiUser, FiMail, FiLock } from 'react-icons/fi';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
+import React, { useCallback, useRef } from 'react';
+import { FiArrowLeft, FiLock, FiMail, FiUser } from 'react-icons/fi';
+import { Link, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import api from '../../services/api';
 
@@ -12,10 +12,10 @@ import getValidationErrors from '../../utils/getValidationErrors';
 
 import logoImg from '../../assets/logo.svg';
 
-import Input from '../../components/Input';
 import Button from '../../components/Button';
+import Input from '../../components/Input';
 
-import { Container, Content, Background, AnimationContainer } from './styles';
+import { AnimationContainer, Background, Container, Content } from './styles';
 
 interface SignUpFormData {
   name: string;
@@ -26,7 +26,7 @@ interface SignUpFormData {
 const SignUp: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const { addToast } = useToast();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleSubmit = useCallback(
     async (data: SignUpFormData) => {
@@ -47,7 +47,7 @@ const SignUp: React.FC = () => {
 
         await api.post('/users', data);
 
-        history.push('/');
+        navigate('/');
 
         addToast({
           type: 'success',
@@ -70,7 +70,7 @@ const SignUp: React.FC = () => {
         });
       }
     },
-    [addToast, history],
+    [addToast, navigate],
   );
 
   return (
@@ -80,7 +80,7 @@ const SignUp: React.FC = () => {
         <AnimationContainer>
           <img src={logoImg} alt="GoBarber" />
 
-          <Form ref={formRef} onSubmit={handleSubmit}>
+          <Form ref={formRef} onSubmit={handleSubmit} placeholder=''>
             <h1>Faça seu cadastro</h1>
 
             <Input name="name" icon={FiUser} placeholder="Nome" />

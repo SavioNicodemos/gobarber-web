@@ -1,8 +1,8 @@
-import React, { ChangeEvent, useCallback, useRef } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import { FiUser, FiMail, FiLock, FiCamera, FiArrowLeft } from 'react-icons/fi';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
+import React, { ChangeEvent, useCallback, useRef } from 'react';
+import { FiArrowLeft, FiCamera, FiLock, FiMail, FiUser } from 'react-icons/fi';
+import { Link, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import api from '../../services/api';
 
@@ -10,11 +10,11 @@ import { useToast } from '../../hooks/toast';
 
 import getValidationErrors from '../../utils/getValidationErrors';
 
-import Input from '../../components/Input';
 import Button from '../../components/Button';
+import Input from '../../components/Input';
 
-import { Container, Content, AvatarInput } from './styles';
 import { useAuth } from '../../hooks/auth';
+import { AvatarInput, Container, Content } from './styles';
 
 interface ProfileFormData {
   name: string;
@@ -27,7 +27,7 @@ interface ProfileFormData {
 const Profile: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const { addToast } = useToast();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const { user, updateUser } = useAuth();
 
@@ -43,13 +43,13 @@ const Profile: React.FC = () => {
             .required('E-mail obrigatório'),
           old_password: Yup.string(),
           password: Yup.string().when('old_password', {
-            is: (val: string) => !!val.length,
+            is: (val: string | undefined) => !!val?.length,
             then: Yup.string().required('Campo obrigatório'),
             otherwise: Yup.string(),
           }),
           password_confirmation: Yup.string()
             .when('old_password', {
-              is: (val: string) => !!val.length,
+              is: (val: string | undefined) => !!val?.length,
               then: Yup.string().required('Campo obrigatório'),
               otherwise: Yup.string(),
             })
@@ -73,10 +73,10 @@ const Profile: React.FC = () => {
           email,
           ...(old_password
             ? {
-                old_password,
-                password,
-                password_confirmation,
-              }
+              old_password,
+              password,
+              password_confirmation,
+            }
             : {}),
         };
 
@@ -84,7 +84,7 @@ const Profile: React.FC = () => {
 
         updateUser(response.data);
 
-        history.push('/dashboard');
+        navigate('/dashboard');
 
         addToast({
           type: 'success',
@@ -107,7 +107,7 @@ const Profile: React.FC = () => {
         });
       }
     },
-    [addToast, history, updateUser],
+    [addToast, navigate, updateUser],
   );
 
   const handleAvatarChange = useCallback(
@@ -147,6 +147,7 @@ const Profile: React.FC = () => {
             name: user.name,
             email: user.email,
           }}
+          placeholder=''
         >
           <AvatarInput>
             <img src={user.avatar_url} alt={user.name} />

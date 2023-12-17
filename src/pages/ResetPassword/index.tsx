@@ -1,8 +1,8 @@
-import React, { useRef, useCallback } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
-import { FiLock } from 'react-icons/fi';
-import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
+import { Form } from '@unform/web';
+import React, { useCallback, useRef } from 'react';
+import { FiLock } from 'react-icons/fi';
+import { useLocation, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import { useToast } from '../../hooks/toast';
@@ -10,11 +10,11 @@ import getValidationErrors from '../../utils/getValidationErrors';
 
 import logoImg from '../../assets/logo.svg';
 
-import Input from '../../components/Input';
 import Button from '../../components/Button';
+import Input from '../../components/Input';
 
-import { Container, Content, Background, AnimationContainer } from './styles';
 import api from '../../services/api';
+import { AnimationContainer, Background, Container, Content } from './styles';
 
 interface ResetPasswordFormData {
   password: string;
@@ -26,7 +26,7 @@ const ResetPassword: React.FC = () => {
 
   const { addToast } = useToast();
 
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
 
   const handleSubmit = useCallback(
@@ -37,7 +37,7 @@ const ResetPassword: React.FC = () => {
         const schema = Yup.object().shape({
           password: Yup.string().required('Senha obrigatória'),
           password_confirmation: Yup.string().oneOf(
-            [Yup.ref('password'), null],
+            [Yup.ref('password'), undefined],
             'Senhas não coincidem',
           ),
         });
@@ -59,7 +59,7 @@ const ResetPassword: React.FC = () => {
           token,
         });
 
-        history.push('/');
+        navigate('/');
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
@@ -77,7 +77,7 @@ const ResetPassword: React.FC = () => {
         });
       }
     },
-    [addToast, history, location],
+    [addToast, navigate, location],
   );
 
   return (
@@ -86,7 +86,7 @@ const ResetPassword: React.FC = () => {
         <AnimationContainer>
           <img src={logoImg} alt="GoBarber" />
 
-          <Form ref={formRef} onSubmit={handleSubmit}>
+          <Form ref={formRef} onSubmit={handleSubmit} placeholder=''>
             <h1>Resetar senha</h1>
 
             <Input

@@ -1,25 +1,35 @@
-import React from 'react';
-import { Switch } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
-import Route from './Route';
-
+import { useAuth } from '../hooks/auth';
+import Dashboard from '../pages/Dashboard';
+import ForgotPassword from '../pages/ForgotPassword';
+import Profile from '../pages/Profile';
+import ResetPassword from '../pages/ResetPassword';
 import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
-import Dashboard from '../pages/Dashboard';
-import Profile from '../pages/Profile';
-import ForgotPassword from '../pages/ForgotPassword';
-import ResetPassword from '../pages/ResetPassword';
 
-const Routes: React.FC = () => (
-  <Switch>
-    <Route path="/" exact component={SignIn} />
-    <Route path="/signup" component={SignUp} />
-    <Route path="/forgot-password" component={ForgotPassword} />
-    <Route path="/reset-password" component={ResetPassword} />
-
-    <Route path="/dashboard" component={Dashboard} isPrivate />
-    <Route path="/profile" component={Profile} isPrivate />
-  </Switch>
+const AuthRoutes = () => (
+  <Routes>
+    <Route path="/" element={<SignIn />} />
+    <Route path="/signup" element={<SignUp />} />
+    <Route path="/forgot-password" element={<ForgotPassword />} />
+    <Route path="/reset-password" element={<ResetPassword />} />
+    <Route path="*" element={<h1>Not Found</h1>} />
+  </Routes>
 );
 
-export default Routes;
+const AppRoutes = () => (
+  <Routes>
+    <Route path="/dashboard" element={<Dashboard />} />
+    <Route path="/profile" element={<Profile />} />
+    <Route path="*" element={<h1>Not Found</h1>} />
+  </Routes>
+);
+
+const RouteSwitcher = () => {
+  const { user } = useAuth();
+
+  return user ? <AppRoutes /> : <AuthRoutes />;
+}
+
+export default RouteSwitcher;
