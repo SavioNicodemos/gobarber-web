@@ -1,13 +1,13 @@
+import { useField } from '@unform/core';
 import React, {
   InputHTMLAttributes,
+  useCallback,
   useEffect,
   useRef,
   useState,
-  useCallback,
 } from 'react';
 import { IconBaseProps } from 'react-icons';
 import { FiAlertCircle } from 'react-icons/fi';
-import { useField } from '@unform/core';
 
 import { Container, Error } from './styles';
 
@@ -51,9 +51,9 @@ const Input: React.FC<InputProps> = ({
   return (
     <Container
       style={containerStyle}
-      isErrored={!!error}
-      isFocused={isFocused}
-      isFilled={isFilled}
+      $isErrored={!!error}
+      $isFocused={isFocused}
+      $isFilled={isFilled}
       data-testid="input-container"
     >
       {Icon && <Icon size={20} />}
