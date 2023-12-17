@@ -1,8 +1,8 @@
-import React, { useRef, useCallback, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { FiMail, FiArrowLeft } from 'react-icons/fi';
-import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
+import { Form } from '@unform/web';
+import React, { useCallback, useRef, useState } from 'react';
+import { FiArrowLeft, FiMail } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import { useToast } from '../../hooks/toast';
@@ -10,11 +10,11 @@ import getValidationErrors from '../../utils/getValidationErrors';
 
 import logoImg from '../../assets/logo.svg';
 
-import Input from '../../components/Input';
 import Button from '../../components/Button';
+import Input from '../../components/Input';
 
-import { Container, Content, Background, AnimationContainer } from './styles';
 import api from '../../services/api';
+import { AnimationContainer, Background, Container, Content } from './styles';
 
 interface ForgotPasswordFormData {
   email: string;
@@ -78,7 +78,7 @@ const ForgotPassword: React.FC = () => {
         <AnimationContainer>
           <img src={logoImg} alt="GoBarber" />
 
-          <Form ref={formRef} onSubmit={handleSubmit}>
+          <Form ref={formRef} onSubmit={handleSubmit} placeholder=''>
             <h1>Recuperar senha</h1>
 
             <Input name="email" icon={FiMail} placeholder="E-mail" />
