@@ -18,5 +18,15 @@
     "jsx": "react-jsx"
   },
   "include": ["src"],
-  "exclude": ["node_modules", "build", "dist", "coverage"]
+  "exclude": [
+    "node_modules",
+    "build",
+    "dist",
+    "coverage",
+    "__tests__",
+    "**/*.test.tsx",
+    "**/*.test.ts",
+    "**/*.spec.tsx",
+    "**/*.spec.ts"
+  ]
 }
