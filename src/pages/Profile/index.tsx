@@ -42,18 +42,12 @@ const Profile: React.FC = () => {
             .email('Digite um e-mail válido')
             .required('E-mail obrigatório'),
           old_password: Yup.string(),
-          password: Yup.string().when('old_password', {
-            is: (val: string | undefined) => !!val?.length,
-            then: Yup.string().required('Campo obrigatório'),
-            otherwise: Yup.string(),
+          password: Yup.string().when('old_password', ([old_password], schema) => {
+            return old_password ? schema.required('Campo obrigatório') : schema.notRequired();
           }),
-          password_confirmation: Yup.string()
-            .when('old_password', {
-              is: (val: string | undefined) => !!val?.length,
-              then: Yup.string().required('Campo obrigatório'),
-              otherwise: Yup.string(),
-            })
-            .oneOf([Yup.ref('password')], 'Confirmação incorreta'),
+          password_confirmation: Yup.string().when('old_password', ([old_password], schema) => {
+            return old_password ? schema.required('Campo obrigatório') : schema.notRequired();
+          }).oneOf([Yup.ref('password')], 'Confirmação incorreta'),
         });
 
         await schema.validate(data, {
@@ -68,10 +62,10 @@ const Profile: React.FC = () => {
           email,
           ...(old_password
             ? {
-                old_password,
-                password,
-                password_confirmation,
-              }
+              old_password,
+              password,
+              password_confirmation,
+            }
             : {}),
         };
 
