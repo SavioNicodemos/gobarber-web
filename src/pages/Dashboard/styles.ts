@@ -257,9 +257,9 @@ export const Calendar = styled.aside`
   }
 
   .rdp:not(.rdp-interaction_disabled)
-    .rdp-day:not(.rdp-day_disabled):not(
-      .rdp-day_selected
-    ):not(.rdp-day_outside):hover {
+    .rdp-day:not(.rdp-day_disabled):not(.rdp-day_selected):not(
+      .rdp-day_outside
+    ):hover {
     background: ${shade(0.2, '#3e3b47')};
     color: #ff9000;
   }

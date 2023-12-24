@@ -1,7 +1,7 @@
 import { format, isAfter, isToday, parseISO } from 'date-fns';
-import ptBR from 'date-fns/locale/pt-BR';
+import { ptBR } from 'date-fns/locale/pt-BR';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { DayModifiers, DayPicker } from 'react-day-picker';
+import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
 
 import { FiClock, FiPower } from 'react-icons/fi';
@@ -47,7 +47,7 @@ const Dashboard: React.FC = () => {
     MonthAvailabilityItem[]
   >([]);
 
-  const handleDateChange = useCallback((day: Date, modifiers: DayModifiers) => {
+  const handleDateChange = useCallback((day: Date) => {
     setSelectedDate(day);
   }, []);
 
