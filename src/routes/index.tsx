@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { useAuth } from '../hooks/auth';
 import Dashboard from '../pages/Dashboard';
@@ -14,7 +14,7 @@ const AuthRoutes = () => (
     <Route path="/signup" element={<SignUp />} />
     <Route path="/forgot-password" element={<ForgotPassword />} />
     <Route path="/reset-password" element={<ResetPassword />} />
-    <Route path="*" element={<h1>Not Found</h1>} />
+    <Route path="*" element={<Navigate to="/" />} />
   </Routes>
 );
 
@@ -22,7 +22,7 @@ const AppRoutes = () => (
   <Routes>
     <Route path="/dashboard" element={<Dashboard />} />
     <Route path="/profile" element={<Profile />} />
-    <Route path="*" element={<h1>Not Found</h1>} />
+    <Route path="*" element={<Navigate to="/dashboard" />} />
   </Routes>
 );
 
