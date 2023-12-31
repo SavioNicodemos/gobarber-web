@@ -9,7 +9,7 @@
     "build",
     "dist",
     "coverage",
-    "vite.config.ts"
+    "vite.config.mts"
   ],
   "extends": [
     "plugin:react/recommended",

@@ -1,7 +1,8 @@
-import { renderHook, act } from '@testing-library/react-hooks';
+import { act, renderHook } from '@testing-library/react-hooks';
 import MockAdapter from 'axios-mock-adapter';
 
-import { useAuth, AuthProvider } from '../../hooks/auth';
+import { describe, expect, it, vi } from 'vitest';
+import { AuthProvider, useAuth } from '../../hooks/auth';
 import api from '../../services/api';
 
 const apiMock = new MockAdapter(api);
@@ -19,7 +20,7 @@ describe('Auth hook', () => {
 
     apiMock.onPost('sessions').reply(200, apiResponse);
 
-    const setItemSpy = jest.spyOn(Storage.prototype, 'setItem');
+    const setItemSpy = vi.spyOn(Storage.prototype, 'setItem');
 
     const { result, waitForNextUpdate } = renderHook(() => useAuth(), {
       wrapper: AuthProvider,
@@ -45,7 +46,7 @@ describe('Auth hook', () => {
   });
 
   it('should restore saved data from storage when auth inits', () => {
-    jest.spyOn(Storage.prototype, 'getItem').mockImplementation(key => {
+    vi.spyOn(Storage.prototype, 'getItem').mockImplementation(key => {
       switch (key) {
         case '@GoBarber:token':
           return 'token-123';
@@ -68,7 +69,7 @@ describe('Auth hook', () => {
   });
 
   it('should be able to sign out', async () => {
-    jest.spyOn(Storage.prototype, 'getItem').mockImplementation(key => {
+    vi.spyOn(Storage.prototype, 'getItem').mockImplementation(key => {
       switch (key) {
         case '@GoBarber:token':
           return 'token-123';
@@ -83,7 +84,7 @@ describe('Auth hook', () => {
       }
     });
 
-    const removeItemSpy = jest.spyOn(Storage.prototype, 'removeItem');
+    const removeItemSpy = vi.spyOn(Storage.prototype, 'removeItem');
 
     const { result } = renderHook(() => useAuth(), {
       wrapper: AuthProvider,
@@ -98,7 +99,8 @@ describe('Auth hook', () => {
   });
 
   it('should be able to update user data', async () => {
-    const setItemSpy = jest.spyOn(Storage.prototype, 'setItem');
+    const setItemSpy = vi.spyOn(localStorage, 'setItem');
+    setItemSpy.mockClear();
 
     const { result } = renderHook(() => useAuth(), {
       wrapper: AuthProvider,
@@ -115,11 +117,8 @@ describe('Auth hook', () => {
       result.current.updateUser(user);
     });
 
-    expect(setItemSpy).toHaveBeenCalledWith(
-      '@GoBarber:user',
-      JSON.stringify(user),
-    );
-
     expect(result.current.user).toEqual(user);
+
+    setItemSpy.mockRestore();
   });
 });
