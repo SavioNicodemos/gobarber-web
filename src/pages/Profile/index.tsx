@@ -1,68 +1,45 @@
-import { FormHandles } from '@unform/core';
-import { Form } from '@unform/web';
-import React, { ChangeEvent, useCallback, useRef } from 'react';
+import { yupResolver } from '@hookform/resolvers/yup';
+import React, { ChangeEvent, useCallback } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import { FiArrowLeft, FiCamera, FiLock, FiMail, FiUser } from 'react-icons/fi';
 import { Link, useNavigate } from 'react-router-dom';
-import * as Yup from 'yup';
-import api from '../../services/api';
-
-import { useToast } from '../../hooks/toast';
-
-import getValidationErrors from '../../utils/getValidationErrors';
 
 import Button from '../../components/Button';
 import Input from '../../components/Input';
-
 import { useAuth } from '../../hooks/auth';
+import { useToast } from '../../hooks/toast';
+import editProfileSchema from '../../schemas/editProfileSchema';
+import api from '../../services/api';
 import { AvatarInput, Container, Content } from './styles';
 
 interface ProfileFormData {
   name: string;
   email: string;
-  old_password: string;
-  password: string;
-  password_confirmation: string;
+  old_password?: string;
+  password?: string;
+  password_confirmation?: string;
 }
 
 const Profile: React.FC = () => {
-  const formRef = useRef<FormHandles>(null);
   const { addToast } = useToast();
   const navigate = useNavigate();
 
   const { user, updateUser } = useAuth();
 
-  const handleSubmit = useCallback(
+  const { handleSubmit, control } = useForm<ProfileFormData>({
+    defaultValues: {
+      name: user.name,
+      email: user.email,
+      old_password: '',
+      password: '',
+      password_confirmation: '',
+    },
+    resolver: yupResolver(editProfileSchema),
+  });
+
+  const submitForm = useCallback(
     async (data: ProfileFormData) => {
       try {
-        formRef.current?.setErrors({});
-
-        const schema = Yup.object().shape({
-          name: Yup.string().required('Nome obrigatório'),
-          email: Yup.string()
-            .email('Digite um e-mail válido')
-            .required('E-mail obrigatório'),
-          old_password: Yup.string(),
-          password: Yup.string().when(
-            'old_password',
-            ([old_password], innerSchema) => {
-              return old_password
-                ? innerSchema.required('Campo obrigatório')
-                : innerSchema.notRequired();
-            },
-          ),
-          password_confirmation: Yup.string()
-            .when('old_password', ([old_password], innerSchema) => {
-              return old_password
-                ? innerSchema.required('Campo obrigatório')
-                : innerSchema.notRequired();
-            })
-            .oneOf([Yup.ref('password')], 'Confirmação incorreta'),
-        });
-
-        await schema.validate(data, {
-          abortEarly: false,
-        });
-
         const { name, email, old_password, password, password_confirmation } =
           data;
 
@@ -90,14 +67,6 @@ const Profile: React.FC = () => {
           description: 'Suas informações foram atualizadas com sucesso',
         });
       } catch (err) {
-        if (err instanceof Yup.ValidationError) {
-          const errors = getValidationErrors(err);
-
-          formRef.current?.setErrors(errors);
-
-          return;
-        }
-
         addToast({
           type: 'error',
           title: 'Erro na atualização',
@@ -138,15 +107,7 @@ const Profile: React.FC = () => {
         </div>
       </header>
       <Content>
-        <Form
-          ref={formRef}
-          onSubmit={handleSubmit}
-          initialData={{
-            name: user.name,
-            email: user.email,
-          }}
-          placeholder=""
-        >
+        <form onSubmit={handleSubmit(submitForm)}>
           <AvatarInput>
             <img src={user.avatar_url} alt={user.name} />
             <label htmlFor="avatar">
@@ -158,31 +119,74 @@ const Profile: React.FC = () => {
 
           <h1>Meu perfil</h1>
 
-          <Input name="name" icon={FiUser} placeholder="Nome" />
-          <Input name="email" icon={FiMail} placeholder="E-mail" />
+          <Controller
+            name="name"
+            control={control}
+            render={({ field, fieldState: { error } }) => (
+              <Input
+                icon={FiUser}
+                placeholder="Nome"
+                error={error?.message}
+                {...field}
+              />
+            )}
+          />
+          <Controller
+            name="email"
+            control={control}
+            render={({ field, fieldState: { error } }) => (
+              <Input
+                icon={FiMail}
+                placeholder="E-mail"
+                error={error?.message}
+                {...field}
+              />
+            )}
+          />
 
-          <Input
-            containerStyle={{ marginTop: 24 }}
+          <Controller
             name="old_password"
-            icon={FiLock}
-            type="password"
-            placeholder="Senha atual"
+            control={control}
+            render={({ field, fieldState: { error } }) => (
+              <Input
+                containerStyle={{ marginTop: 24 }}
+                icon={FiLock}
+                type="password"
+                placeholder="Senha atual"
+                error={error?.message}
+                {...field}
+              />
+            )}
           />
-          <Input
+          <Controller
             name="password"
-            icon={FiLock}
-            type="password"
-            placeholder="Nova senha"
+            control={control}
+            render={({ field, fieldState: { error } }) => (
+              <Input
+                icon={FiLock}
+                type="password"
+                placeholder="Nova senha"
+                error={error?.message}
+                {...field}
+              />
+            )}
           />
-          <Input
+          <Controller
             name="password_confirmation"
-            icon={FiLock}
-            type="password"
-            placeholder="Confirmação de senha"
+            control={control}
+            render={({ field, fieldState: { error } }) => (
+              <Input
+                icon={FiLock}
+                type="password"
+                placeholder="Confirmação de senha"
+                error={error?.message}
+                {...field}
+              />
+            )}
           />
 
           <Button type="submit">Confirmar mudanças</Button>
-        </Form>
+        </form>
       </Content>
     </Container>
   );
