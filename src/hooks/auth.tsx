@@ -1,8 +1,8 @@
 import {
   PropsWithChildren,
   createContext,
+  use,
   useCallback,
-  useContext,
   useMemo,
   useState,
 } from 'react';
@@ -92,15 +92,11 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
     [data.user, signIn, signOut, updateUser],
   );
 
-  return (
-    <AuthContext.Provider value={authContextValue}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext value={authContextValue}>{children}</AuthContext>;
 };
 
 function useAuth(): AuthContextData {
-  const context = useContext(AuthContext);
+  const context = use(AuthContext);
 
   if (!context) {
     throw new Error('UseAuth must be used within an AuthProvider');

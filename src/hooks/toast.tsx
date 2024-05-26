@@ -1,7 +1,7 @@
 import React, {
   createContext,
+  use,
   useCallback,
-  useContext,
   useMemo,
   useState,
 } from 'react';
@@ -53,15 +53,15 @@ const ToastProvider = ({ children }: React.PropsWithChildren) => {
   );
 
   return (
-    <ToastContext.Provider value={toastContextValue}>
+    <ToastContext value={toastContextValue}>
       {children}
       <ToastContainer messages={messages} />
-    </ToastContext.Provider>
+    </ToastContext>
   );
 };
 
 function useToast(): ToastContextData {
-  const context = useContext(ToastContext);
+  const context = use(ToastContext);
 
   if (!context) {
     throw new Error('useToast must be used within a ToastProvider');
