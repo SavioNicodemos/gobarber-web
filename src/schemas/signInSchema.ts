@@ -1,8 +1,12 @@
-import * as Yup from 'yup';
+import { z } from 'zod';
 
-export default Yup.object().shape({
-  email: Yup.string()
+export default z.object({
+  email: z
+    .string()
     .email('Digite um e-mail válido')
-    .required('E-mail obrigatório'),
-  password: Yup.string().required('Senha obrigatória'),
+    .min(1, 'E-mail obrigatório'),
+  password: z
+    .string()
+    .min(1, 'Senha obrigatória')
+    .min(6, 'Senha deve ter no mínimo 6 caracteres'),
 });

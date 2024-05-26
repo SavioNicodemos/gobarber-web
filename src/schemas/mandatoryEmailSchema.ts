@@ -1,7 +1,8 @@
-import * as Yup from 'yup';
+import { z } from 'zod';
 
-export default Yup.object().shape({
-  email: Yup.string()
+export default z.object({
+  email: z
+    .string()
     .email('Digite um e-mail válido')
-    .required('E-mail obrigatório'),
+    .min(1, 'E-mail obrigatório'),
 });

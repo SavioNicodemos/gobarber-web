@@ -1,4 +1,4 @@
-import { yupResolver } from '@hookform/resolvers/yup';
+import { zodResolver } from '@hookform/resolvers/zod';
 import React, { ChangeEvent, useCallback } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { FiArrowLeft, FiCamera, FiLock, FiMail, FiUser } from 'react-icons/fi';
@@ -34,7 +34,7 @@ const Profile: React.FC = () => {
       password: '',
       password_confirmation: '',
     },
-    resolver: yupResolver(editProfileSchema),
+    resolver: zodResolver(editProfileSchema),
   });
 
   const submitForm = useCallback(

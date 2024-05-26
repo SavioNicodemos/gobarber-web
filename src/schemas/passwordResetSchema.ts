@@ -1,9 +1,14 @@
-import * as Yup from 'yup';
+import { z } from 'zod';
 
-export default Yup.object().shape({
-  password: Yup.string().required('Senha obrigatória'),
-  password_confirmation: Yup.string().oneOf(
-    [Yup.ref('password'), undefined],
-    'Senhas não coincidem',
-  ),
+const passwordSchema = z.object({
+  password: z.string().min(6, 'Senha obrigatória'),
+  password_confirmation: z.string(),
 });
+
+export default passwordSchema.refine(
+  data => data.password === data.password_confirmation,
+  {
+    message: 'Passwords do not match',
+    path: ['password_confirmation'],
+  },
+);

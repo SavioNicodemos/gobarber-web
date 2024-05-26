@@ -1,4 +1,4 @@
-import { yupResolver } from '@hookform/resolvers/yup';
+import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useCallback } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { FiLock } from 'react-icons/fi';
@@ -25,7 +25,7 @@ const ResetPassword: React.FC = () => {
       password: '',
       password_confirmation: '',
     },
-    resolver: yupResolver(passwordResetSchema),
+    resolver: zodResolver(passwordResetSchema),
   });
 
   const navigate = useNavigate();

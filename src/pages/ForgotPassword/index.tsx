@@ -1,4 +1,4 @@
-import { yupResolver } from '@hookform/resolvers/yup';
+import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useCallback, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { FiArrowLeft, FiMail } from 'react-icons/fi';
@@ -25,7 +25,7 @@ const ForgotPassword: React.FC = () => {
     defaultValues: {
       email: '',
     },
-    resolver: yupResolver(mandatoryEmailSchema),
+    resolver: zodResolver(mandatoryEmailSchema),
   });
 
   const formSubmit = useCallback(

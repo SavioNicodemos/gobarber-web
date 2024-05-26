@@ -1,4 +1,4 @@
-import { yupResolver } from '@hookform/resolvers/yup';
+import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useCallback } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { FiLock, FiLogIn, FiMail } from 'react-icons/fi';
@@ -27,7 +27,7 @@ const SignIn: React.FC = () => {
       email: '',
       password: '',
     },
-    resolver: yupResolver(signInSchema),
+    resolver: zodResolver(signInSchema),
   });
 
   const submitForm = useCallback(

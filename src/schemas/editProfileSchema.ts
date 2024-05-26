@@ -1,21 +1,40 @@
-import * as Yup from 'yup';
+import { z } from 'zod';
 
-export default Yup.object().shape({
-  name: Yup.string().required('Nome obrigatório'),
-  email: Yup.string()
-    .email('Digite um e-mail válido')
-    .required('E-mail obrigatório'),
-  old_password: Yup.string(),
-  password: Yup.string().when('old_password', ([old_password], innerSchema) => {
-    return old_password
-      ? innerSchema.required('Campo obrigatório')
-      : innerSchema.notRequired();
-  }),
-  password_confirmation: Yup.string()
-    .when('old_password', ([old_password], innerSchema) => {
-      return old_password
-        ? innerSchema.required('Campo obrigatório')
-        : innerSchema.notRequired();
-    })
-    .oneOf([Yup.ref('password')], 'Confirmação incorreta'),
+const baseSchema = z.object({
+  name: z.string().min(1, 'Nome obrigatório'),
+  email: z
+    .string()
+    .min(1, 'E-mail obrigatório')
+    .email('Digite um e-mail válido'),
+  old_password: z.string().optional(),
+  password: z.string().optional(),
+  password_confirmation: z.string().optional(),
 });
+
+const filledFieldsSchema = baseSchema.refine(
+  data => {
+    const old = !!data.old_password;
+    const password = !!data.password;
+    const confirm = !!data.password_confirmation;
+
+    return (old && password && confirm) || (!old && !password && !confirm);
+  },
+  {
+    message: 'Na mudança de senha, todos os campos são obrigatórios',
+    path: ['old_password'],
+  },
+);
+
+export default filledFieldsSchema.refine(
+  data => {
+    if (data.password === data.password_confirmation) {
+      return true;
+    }
+
+    return false;
+  },
+  {
+    message: 'Senhas não coincidem',
+    path: ['password_confirmation'],
+  },
+);
