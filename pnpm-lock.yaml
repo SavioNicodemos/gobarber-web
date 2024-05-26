@@ -11,12 +11,6 @@ importers:
       '@hookform/resolvers':
         specifier: ^3.4.2
         version: 3.4.2(react-hook-form@7.51.5(react@18.3.1))
-      '@unform/core':
-        specifier: ^2.1.6
-        version: 2.1.6(react@18.3.1)
-      '@unform/web':
-        specifier: ^2.1.6
-        version: 2.1.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       axios:
         specifier: ^1.7.2
         version: 1.7.2
@@ -1816,17 +1810,6 @@ packages:
     resolution: {integrity: sha512-gkdtIO+xSO/SmI0W68DBg4u1KElmIUo3vXzgHyGPs6cxgB0sa3TlptRAAE0hUY1hM6FcDKEv7aIwiTGm76cXfQ==}
     engines: {node: ^16.0.0 || >=18.0.0}
 
-  '@unform/core@2.1.6':
-    resolution: {integrity: sha512-coz9rOS1Y+0zygxTTQB+hY1HJ5ee0A40KBdIy/1IdaiFGT5LhZhCWqMorFh8KcqY3J+SInrpGDMmJYObsjEW9w==}
-    peerDependencies:
-      react: '>=16.8.0'
-
-  '@unform/web@2.1.6':
-    resolution: {integrity: sha512-EawnCaIYcF7UwbRmYn9k+KQBCkrH5nQjd5IGQL3rKZ7tSQNADenfuPUuBmRFE3mOBcIiIUgcYl0PMK5XFj5zFA==}
-    peerDependencies:
-      react: '>=16.8.0'
-      react-dom: '>=16.8.0'
-
   '@ungap/structured-clone@1.2.0':
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
 
@@ -2221,10 +2204,6 @@ packages:
   commander@2.20.3:
     resolution: {integrity: sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==}
 
-  commander@4.1.1:
-    resolution: {integrity: sha512-NOKm8xhkzAjzFx8B2v5OAHT+u5pRQc2UCa2Vq9jYL/31o2wi9mxBA7LIFs3sV5VSC49z6pEhfbMULvShKj26WA==}
-    engines: {node: '>= 6'}
-
   commander@9.5.0:
     resolution: {integrity: sha512-KRs7WVDKg86PWiuAqhDrAQnTXZKraVcCc6vFdL14qrZ/DcWwuRo7VoiYXalXO7S5GKpqYiVEwCbgFDfxNHKJBQ==}
     engines: {node: ^12.20.0 || >=14}
@@ -2425,10 +2404,6 @@ packages:
 
   dot-case@3.0.4:
     resolution: {integrity: sha512-Kv5nKlh6yRrdrGvxeJ2e5y2eRUpkUosIW4A2AS38zwSz27zu7ufDwQPi5Jhs3XAlGNetl3bmnGhQsMtkKJnj3w==}
-
-  dot-object@2.1.4:
-    resolution: {integrity: sha512-7FXnyyCLFawNYJ+NhkqyP9Wd2yzuo+7n9pGiYpkmXCTYa8Ci2U0eUNDVg5OuO5Pm6aFXI2SWN8/N/w7SJWu1WA==}
-    hasBin: true
 
   ee-first@1.1.1:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
@@ -7050,17 +7025,6 @@ snapshots:
       '@typescript-eslint/types': 6.19.1
       eslint-visitor-keys: 3.4.3
 
-  '@unform/core@2.1.6(react@18.3.1)':
-    dependencies:
-      dot-object: 2.1.4
-      react: 18.3.1
-
-  '@unform/web@2.1.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
-    dependencies:
-      '@unform/core': 2.1.6(react@18.3.1)
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-
   '@ungap/structured-clone@1.2.0': {}
 
   '@vitejs/plugin-react@4.3.0(vite@5.2.11(@types/node@20.12.12)(terser@5.31.0))':
@@ -7550,8 +7514,6 @@ snapshots:
 
   commander@2.20.3: {}
 
-  commander@4.1.1: {}
-
   commander@9.5.0: {}
 
   commondir@1.0.1: {}
@@ -7742,11 +7704,6 @@ snapshots:
     dependencies:
       no-case: 3.0.4
       tslib: 2.6.2
-
-  dot-object@2.1.4:
-    dependencies:
-      commander: 4.1.1
-      glob: 7.2.3
 
   ee-first@1.1.1: {}
 
