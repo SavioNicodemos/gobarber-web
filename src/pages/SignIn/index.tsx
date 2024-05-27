@@ -6,6 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import logoImg from '../../assets/logo.svg';
 import Button from '../../components/Button';
+import { Image } from '../../components/Image';
 import Input from '../../components/Input';
 import { useAuth } from '../../hooks/auth';
 import { useToast } from '../../hooks/toast';
@@ -54,7 +55,7 @@ const SignIn: React.FC = () => {
     <Container>
       <Content>
         <AnimationContainer>
-          <img src={logoImg} alt="GoBarber" />
+          <Image src={logoImg} alt="GoBarber" />
 
           <form onSubmit={handleSubmit(submitForm)}>
             <h1>Faça seu login</h1>

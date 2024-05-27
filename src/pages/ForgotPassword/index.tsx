@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 
 import logoImg from '../../assets/logo.svg';
 import Button from '../../components/Button';
+import { Image } from '../../components/Image';
 import Input from '../../components/Input';
 import { useToast } from '../../hooks/toast';
 import mandatoryEmailSchema from '../../schemas/mandatoryEmailSchema';
@@ -59,7 +60,7 @@ const ForgotPassword: React.FC = () => {
     <Container>
       <Content>
         <AnimationContainer>
-          <img src={logoImg} alt="GoBarber" />
+          <Image src={logoImg} alt="GoBarber" />
 
           <form onSubmit={handleSubmit(formSubmit)}>
             <h1>Recuperar senha</h1>

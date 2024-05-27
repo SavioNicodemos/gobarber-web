@@ -5,6 +5,7 @@ import { FiArrowLeft, FiCamera, FiLock, FiMail, FiUser } from 'react-icons/fi';
 import { Link, useNavigate } from 'react-router-dom';
 
 import Button from '../../components/Button';
+import { Image } from '../../components/Image';
 import Input from '../../components/Input';
 import { useAuth } from '../../hooks/auth';
 import { useToast } from '../../hooks/toast';
@@ -109,7 +110,7 @@ const Profile: React.FC = () => {
       <Content>
         <form onSubmit={handleSubmit(submitForm)}>
           <AvatarInput>
-            <img src={user.avatar_url} alt={user.name} />
+            <Image src={user.avatar_url} alt={user.name} />
             <label htmlFor="avatar">
               <FiCamera />
 
