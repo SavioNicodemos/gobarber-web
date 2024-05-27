@@ -4,8 +4,6 @@
   "private": true,
   "dependencies": {
     "@hookform/resolvers": "^3.4.2",
-    "@unform/core": "^2.1.6",
-    "@unform/web": "^2.1.6",
     "axios": "^1.7.2",
     "date-fns": "^3.6.0",
     "polished": "^4.3.1",
@@ -19,7 +17,6 @@
     "styled-components": "^6.1.11",
     "typescript": "^5.4.5",
     "uuid": "^9.0.1",
-    "yup": "^1.4.0",
     "zod": "^3.23.8"
   },
   "scripts": {
