@@ -1,5 +1,5 @@
-import styled from 'styled-components';
 import { shade } from 'polished';
+import styled from 'styled-components';
 
 export const Container = styled.div`
   height: 100vh;
@@ -45,10 +45,6 @@ export const Content = styled.div`
       margin-bottom: 24px;
       font-size: 20px;
       text-align: left;
-    }
-
-    input[name='old_password'] {
-      margin-top: 24px;
     }
   }
 

@@ -1,19 +1,16 @@
-import { FormHandles } from '@unform/core';
-import { Form } from '@unform/web';
-import React, { useCallback, useRef } from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import React, { useCallback } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import { FiLock, FiLogIn, FiMail } from 'react-icons/fi';
 import { Link, useNavigate } from 'react-router-dom';
-import * as Yup from 'yup';
-
-import { useAuth } from '../../hooks/auth';
-import { useToast } from '../../hooks/toast';
-import getValidationErrors from '../../utils/getValidationErrors';
 
 import logoImg from '../../assets/logo.svg';
-
 import Button from '../../components/Button';
+import { Image } from '../../components/Image';
 import Input from '../../components/Input';
-
+import { useAuth } from '../../hooks/auth';
+import { useToast } from '../../hooks/toast';
+import signInSchema from '../../schemas/signInSchema';
 import { AnimationContainer, Background, Container, Content } from './styles';
 
 interface SignInFormData {
@@ -22,29 +19,21 @@ interface SignInFormData {
 }
 
 const SignIn: React.FC = () => {
-  const formRef = useRef<FormHandles>(null);
-
   const { signIn } = useAuth();
   const { addToast } = useToast();
-
   const navigate = useNavigate();
 
-  const handleSubmit = useCallback(
+  const { control, handleSubmit } = useForm<SignInFormData>({
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+    resolver: zodResolver(signInSchema),
+  });
+
+  const submitForm = useCallback(
     async (data: SignInFormData) => {
       try {
-        formRef.current?.setErrors({});
-
-        const schema = Yup.object().shape({
-          email: Yup.string()
-            .email('Digite um e-mail válido')
-            .required('E-mail obrigatório'),
-          password: Yup.string().required('Senha obrigatória'),
-        });
-
-        await schema.validate(data, {
-          abortEarly: false,
-        });
-
         await signIn({
           email: data.email,
           password: data.password,
@@ -52,14 +41,6 @@ const SignIn: React.FC = () => {
 
         navigate('/dashboard');
       } catch (err) {
-        if (err instanceof Yup.ValidationError) {
-          const errors = getValidationErrors(err);
-
-          formRef.current?.setErrors(errors);
-
-          return;
-        }
-
         addToast({
           type: 'error',
           title: 'Erro na autenticação',
@@ -74,24 +55,44 @@ const SignIn: React.FC = () => {
     <Container>
       <Content>
         <AnimationContainer>
-          <img src={logoImg} alt="GoBarber" />
+          <Image src={logoImg} alt="GoBarber" />
 
-          <Form ref={formRef} onSubmit={handleSubmit} placeholder="">
+          <form onSubmit={handleSubmit(submitForm)}>
             <h1>Faça seu login</h1>
 
-            <Input name="email" icon={FiMail} placeholder="E-mail" />
+            <Controller
+              name="email"
+              control={control}
+              render={({ field, fieldState: { error } }) => (
+                <Input
+                  {...field}
+                  icon={FiMail}
+                  placeholder="E-mail"
+                  error={error?.message}
+                  autoComplete="email"
+                />
+              )}
+            />
 
-            <Input
+            <Controller
               name="password"
-              icon={FiLock}
-              type="password"
-              placeholder="Senha"
+              control={control}
+              render={({ field, fieldState: { error } }) => (
+                <Input
+                  {...field}
+                  icon={FiLock}
+                  type="password"
+                  placeholder="Senha"
+                  error={error?.message}
+                  autoComplete="current-password"
+                />
+              )}
             />
 
             <Button type="submit">Entrar</Button>
 
             <Link to="/forgot-password">Esqueci minha senha</Link>
-          </Form>
+          </form>
 
           <Link to="signup">
             <FiLogIn />
