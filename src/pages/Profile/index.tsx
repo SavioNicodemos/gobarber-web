@@ -153,6 +153,7 @@ const Profile: React.FC = () => {
                 icon={FiLock}
                 type="password"
                 placeholder="Senha atual"
+                autoComplete="new-password"
                 error={error?.message}
                 {...field}
               />
